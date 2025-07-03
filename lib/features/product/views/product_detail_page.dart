@@ -62,12 +62,14 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               ),
               const SizedBox(height: 14),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     100000.currencyFormatRp,
                     textAlign: TextAlign.left,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                       fontWeight: FontWeight.w600,
+                      fontSize: 22,
                     ),
                   ),
                   const Spacer(),
@@ -117,6 +119,73 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   color: DefaultColors.neutral500,
                 ),
               ),
+              const SizedBox(height: 14),
+              Text(
+                'Rating & Reviews',
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.left,
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
+              ),
+              Material(
+                color: Colors.white,
+                child: InkWell(
+                  splashColor: DefaultColors.neutral50,
+                  onTap: () {},
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: Row(
+                      spacing: 10,
+                      children: [
+                        Text(
+                          '4.8/5',
+                          textAlign: TextAlign.left,
+                          style: Theme.of(
+                            context,
+                          ).textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.w600,
+                            // fontSize: 22,
+                          ),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Overall Rating',
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.left,
+                              style: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(fontWeight: FontWeight.w500),
+                            ),
+                            Text(
+                              '102 ratings',
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.left,
+                              style: Theme.of(
+                                context,
+                              ).textTheme.bodyMedium?.copyWith(
+                                fontWeight: FontWeight.w400,
+                                color: DefaultColors.neutral700,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const Spacer(),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          color: DefaultColors.neutral500,
+                          size: 24,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
             ],
           ),
         ),
