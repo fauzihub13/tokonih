@@ -20,7 +20,15 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
-        child: CommonAppbar(title: 'Product Detail', canBack: true),
+        child: CommonAppbar(
+          title: 'Product Detail',
+          canBack: true,
+          suffixIcon: Icon(
+            size: 22,
+            Icons.shopping_cart,
+            color: DefaultColors.neutral950,
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.only(

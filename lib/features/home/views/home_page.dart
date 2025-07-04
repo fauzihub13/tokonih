@@ -4,6 +4,7 @@ import 'package:flutter_tokonih/core/constant/theme.dart';
 import 'package:flutter_tokonih/features/home/widgets/category_card.dart';
 import 'package:flutter_tokonih/features/home/widgets/main_appbar.dart';
 import 'package:flutter_tokonih/features/home/widgets/product_catalog_card.dart';
+import 'package:flutter_tokonih/features/product/views/product_list_page.dart';
 import 'package:flutter_tokonih/features/shared/widgets/search_bar_input.dart';
 import 'package:flutter_tokonih/features/shared/widgets/title_section.dart';
 
@@ -57,11 +58,60 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
 
+              const SizedBox(height: 4),
+
               // Category Title
               TitleSection(
                 title: 'Categories',
                 onPressed: () {
-                  print('asdasd');
+                  showModalBottomSheet(
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(20),
+                      ),
+                    ),
+                    context: context,
+                    builder: (context) {
+                      return Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Column(
+                          spacing: 4,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'Categories',
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(fontWeight: FontWeight.w600),
+                            ),
+                            const SizedBox(height: 4),
+                            GridView.builder(
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 5,
+                                    mainAxisSpacing: 18,
+                                    crossAxisSpacing: 18,
+                                    mainAxisExtent: 80,
+                                  ),
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: 8,
+                              itemBuilder: (context, index) {
+                                return CategoryCard(
+                                  categoryName: '$index category',
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
                 },
               ),
 
@@ -81,9 +131,16 @@ class _HomePageState extends State<HomePage> {
 
               // Product Title
               TitleSection(
-                title: 'Product',
+                title: 'Hot Product',
                 onPressed: () {
-                  print('asdasd');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return ProductListPage();
+                      },
+                    ),
+                  );
                 },
               ),
 
