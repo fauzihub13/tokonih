@@ -51,7 +51,7 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
-    # - assets/icons/navbar/
+    - assets/icons/navbar/
     # - assets/images/onboarding/
     # - assets/images/auth/
   # An image asset can refer to one or more resolution-specific "variants", see

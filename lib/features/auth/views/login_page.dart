@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tokonih/core/constant/theme.dart';
-import 'package:flutter_tokonih/features/home/views/home_page.dart';
+import 'package:flutter_tokonih/features/home/views/landing_page.dart';
 import 'package:flutter_tokonih/features/shared/widgets/form_input.dart';
 import 'package:flutter_tokonih/features/shared/widgets/form_label.dart';
 import 'package:flutter_tokonih/features/shared/widgets/main_button.dart';
@@ -93,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                           context,
                           MaterialPageRoute(
                             builder: (context) {
-                              return HomePage();
+                              return LandingPage();
                             },
                           ),
                         );
