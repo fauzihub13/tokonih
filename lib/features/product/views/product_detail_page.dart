@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tokonih/core/constant/theme.dart';
 import 'package:flutter_tokonih/core/utils/int_ext.dart';
 import 'package:flutter_tokonih/features/home/widgets/product_favourite_button.dart';
+import 'package:flutter_tokonih/features/product/views/product_review_page.dart';
 import 'package:flutter_tokonih/features/product/widgets/row_product_detail.dart';
 import 'package:flutter_tokonih/features/shared/widgets/common_appbar.dart';
 import 'package:flutter_tokonih/features/shared/widgets/main_button.dart';
@@ -133,7 +134,16 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 color: Colors.white,
                 child: InkWell(
                   splashColor: DefaultColors.neutral50,
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return ProductReviewPage();
+                        },
+                      ),
+                    );
+                  },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     child: Row(
@@ -197,7 +207,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             right: PaddingSize.horizontal,
             bottom: PaddingSize.vertical / 2,
           ),
-          child: MainButton.filled(onPressed: () {}, label: 'Add To Cart'),
+          child: MainButton.filled(
+            onPressed: () {},
+            icon: Icon(Icons.shopping_cart, color: Colors.white),
+            label: 'Add To Cart',
+          ),
         ),
       ),
     );
