@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_tokonih/core/constant/theme.dart';
+import 'package:flutter_tokonih/features/home/views/cart_page.dart';
 import 'package:flutter_tokonih/features/home/views/home_page.dart';
+import 'package:flutter_tokonih/features/home/views/profile_page.dart';
+import 'package:flutter_tokonih/features/home/views/saved_page.dart';
 
 class LandingPage extends StatefulWidget {
   final int index;
@@ -16,10 +19,16 @@ class _LandingPageState extends State<LandingPage> {
 
   final List<Widget> widgetOptions = const [
     HomePage(),
-    HomePage(),
-    HomePage(),
-    HomePage(),
+    SavedPage(),
+    CartPage(),
+    ProfilePage(),
   ];
+
+  @override
+  void initState() {
+    _selectedIndex = widget.index;
+    super.initState();
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -58,7 +67,7 @@ class _LandingPageState extends State<LandingPage> {
               'assets/icons/navbar/saved.svg',
               colorFilter: ColorFilter.mode(
                 DefaultColors.blue700,
-                
+
                 BlendMode.srcIn,
               ),
             ),

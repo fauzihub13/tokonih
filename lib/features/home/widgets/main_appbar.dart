@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_tokonih/core/constant/theme.dart';
+import 'package:flutter_tokonih/features/home/views/notification_page.dart';
 
 class MainAppbar extends StatelessWidget {
   final String name;
@@ -48,7 +49,14 @@ class MainAppbar extends StatelessWidget {
                     width: 28,
                   ),
                   onPressed: () {
-                    print('sadasd');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return NotificationPage();
+                        },
+                      ),
+                    );
                   },
                 ),
               ),

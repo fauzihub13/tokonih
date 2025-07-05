@@ -31,7 +31,9 @@ dependencies:
   cupertino_icons: ^1.0.8
   flutter:
     sdk: flutter
+  flutter_slidable: ^4.0.0
   flutter_svg: ^2.2.0
+  image_picker: ^1.1.2
   intl: ^0.20.2
 
 dev_dependencies:
@@ -52,7 +54,7 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/icons/navbar/
-    # - assets/images/onboarding/
+    - assets/icons/state/
     # - assets/images/auth/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

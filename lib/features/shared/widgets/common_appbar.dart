@@ -74,7 +74,7 @@ class CommonAppbar extends StatelessWidget implements PreferredSizeWidget {
                       child: IconButton(
                         icon: suffixIcon!,
                         onPressed: () {
-                          if (onTap != null) {
+                          if (suffixIconOnTap != null) {
                             suffixIconOnTap!();
                           } else {}
                         },
