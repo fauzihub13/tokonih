@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tokonih/core/constant/theme.dart';
 import 'package:flutter_tokonih/features/product/views/add_new_product_page.dart';
+import 'package:flutter_tokonih/models/response/all_product_response_model.dart';
 
 class ManageProductListCard extends StatelessWidget {
-  const ManageProductListCard({super.key});
+  final Product product;
+
+  const ManageProductListCard({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +18,7 @@ class ManageProductListCard extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) {
-                return AddNewProductPage();
+                return AddNewProductPage(product: product);
               },
             ),
           );
@@ -35,7 +38,8 @@ class ManageProductListCard extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: Image.network(
-                  'https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTExL3BmLXMxMDgtcG0tNDExMy1tb2NrdXAuanBn.jpg',
+                  product.images!.first,
+                  // 'https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTExL3BmLXMxMDgtcG0tNDExMy1tb2NrdXAuanBn.jpg',
                   width: 84,
                   height: 84,
                   fit: BoxFit.cover,
@@ -47,7 +51,8 @@ class ManageProductListCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Portable Neck Fan Hands Free Fan adas sada',
+                      product.title!,
+                      // 'Portable Neck Fan Hands Free Fan adas sada',
                       maxLines: 2,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
@@ -60,7 +65,7 @@ class ManageProductListCard extends StatelessWidget {
                           style: Theme.of(context).textTheme.bodySmall,
                         ),
                         Text(
-                          '20 pcs',
+                          '${product.stock} pcs',
                           maxLines: 1,
                           style: Theme.of(context).textTheme.bodySmall,
                         ),

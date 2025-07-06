@@ -2,21 +2,27 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_tokonih/core/constant/theme.dart';
+import 'package:flutter_tokonih/core/error/failure.dart';
+import 'package:flutter_tokonih/features/product/viewmodels/store_product_viewmodel.dart';
+import 'package:flutter_tokonih/features/product/viewmodels/update_product_view_model.dart';
 import 'package:flutter_tokonih/features/shared/widgets/common_appbar.dart';
 import 'package:flutter_tokonih/features/shared/widgets/form_input.dart';
 import 'package:flutter_tokonih/features/shared/widgets/form_label.dart';
 import 'package:flutter_tokonih/features/shared/widgets/main_button.dart';
+import 'package:flutter_tokonih/models/response/all_product_response_model.dart';
 import 'package:image_picker/image_picker.dart';
 
-class AddNewProductPage extends StatefulWidget {
-  const AddNewProductPage({super.key});
+class AddNewProductPage extends ConsumerStatefulWidget {
+  final Product? product;
+  const AddNewProductPage({super.key, this.product});
 
   @override
-  State<AddNewProductPage> createState() => _AddNewProductPageState();
+  ConsumerState createState() => _AddNewProductPageState();
 }
 
-class _AddNewProductPageState extends State<AddNewProductPage> {
+class _AddNewProductPageState extends ConsumerState<AddNewProductPage> {
   final _nameController = TextEditingController();
   final _brandController = TextEditingController();
   final _skuController = TextEditingController();
@@ -36,19 +42,85 @@ class _AddNewProductPageState extends State<AddNewProductPage> {
     image = await picker.pickImage(source: ImageSource.gallery);
 
     if (image != null) {
-      print('ada');
       setState(() {
         newImage = image;
       });
     }
   }
 
+  void _productData(Product product) {
+    _nameController.text = product.title!;
+    _brandController.text = product.brand!;
+    _skuController.text = product.sku!;
+    _priceController.text = product.price!.toString();
+    _descriptionController.text = product.description!;
+    _stockController.text = product.stock!.toString();
+    _discountController.text = product.discountPercentage!.toString();
+  }
+
+  void _updateProduct(Product product) {
+    ref.read(updateProductViewModelProvider.notifier).updateProduct(product);
+  }
+
+  void _storeProduct(Product product) {
+    ref.read(storeProductViewModelProvider.notifier).storeProduct(product);
+  }
+
+  @override
+  void initState() {
+    if (widget.product != null) {
+      _productData(widget.product!);
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    ref.listen<AsyncValue<bool>>(updateProductViewModelProvider, (prev, next) {
+      next.whenOrNull(
+        data: (success) {
+          if (success) {
+            Navigator.pop(context);
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("Success update product"),
+                backgroundColor: DefaultColors.green600,
+              ),
+            );
+          }
+        },
+        error: (e, stack) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text("${(e as Failure).message}")));
+        },
+      );
+    });
+    ref.listen<AsyncValue<bool>>(storeProductViewModelProvider, (prev, next) {
+      next.whenOrNull(
+        data: (success) {
+          if (success) {
+            Navigator.pop(context);
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("Success add new product"),
+                backgroundColor: DefaultColors.green600,
+              ),
+            );
+          }
+        },
+        error: (e, stack) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text("${(e as Failure).message}")));
+        },
+      );
+    });
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
-        child: CommonAppbar(title: 'Edit Product', canBack: true),
+        child: CommonAppbar(title: 'Data Product', canBack: true),
       ),
       body: SafeArea(
         child: Padding(
@@ -88,8 +160,15 @@ class _AddNewProductPageState extends State<AddNewProductPage> {
                                     height: 84,
                                     fit: BoxFit.cover,
                                   )
-                                  : Image.network(
-                                    'https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTExL3BmLXMxMDgtcG0tNDExMy1tb2NrdXAuanBn.jpg',
+                                  : widget.product != null
+                                  ? Image.network(
+                                    widget.product!.images!.first,
+                                    width: 84,
+                                    height: 84,
+                                    fit: BoxFit.cover,
+                                  )
+                                  : Image.asset(
+                                    'assets/images/image_placeholder.jpg',
                                     width: 84,
                                     height: 84,
                                     fit: BoxFit.cover,
@@ -127,8 +206,6 @@ class _AddNewProductPageState extends State<AddNewProductPage> {
                   FormInput(
                     controller: _brandController,
                     hintText: 'Enter product brand',
-                    textInputType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'This product brand field is required.';
@@ -141,8 +218,6 @@ class _AddNewProductPageState extends State<AddNewProductPage> {
                   FormInput(
                     controller: _skuController,
                     hintText: 'Enter product sku',
-                    textInputType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'This product sku field is required.';
@@ -156,12 +231,14 @@ class _AddNewProductPageState extends State<AddNewProductPage> {
                     controller: _priceController,
                     hintText: 'Enter product price',
                     textInputType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
+                    ],
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'This product price field is required.';
                       }
-                      if (int.parse(value) < 0) {
+                      if (double.parse(value) < 0) {
                         return 'Product price must bigger then 0';
                       }
                       return null;
@@ -223,14 +300,16 @@ class _AddNewProductPageState extends State<AddNewProductPage> {
                               hintText: 'Enter product price',
                               textInputType: TextInputType.number,
                               inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly,
+                                FilteringTextInputFormatter.allow(
+                                  RegExp(r'^\d*\.?\d*'),
+                                ),
                               ],
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'This product price field is required.';
                                 }
-                                if (int.parse(value) > 100 ||
-                                    int.parse(value) < 0) {
+                                if (double.parse(value) > 100 ||
+                                    double.parse(value) < 0) {
                                   return 'Product dicscount must between 0-100';
                                 }
                                 return null;
@@ -257,7 +336,30 @@ class _AddNewProductPageState extends State<AddNewProductPage> {
           child: MainButton.filled(
             onPressed: () {
               if (_formKey.currentState!.validate()) {
-                print('haha');
+                if (widget.product != null) {
+                  final newData = Product(
+                    id: widget.product!.id,
+                    title: _nameController.text,
+                    brand: _nameController.text,
+                    sku: _nameController.text,
+                    price: double.parse(_priceController.text),
+                    description: _descriptionController.text,
+                    stock: int.parse(_stockController.text),
+                    discountPercentage: double.parse(_discountController.text),
+                  );
+                  _updateProduct(newData);
+                } else {
+                  final newData = Product(
+                    title: _nameController.text,
+                    brand: _nameController.text,
+                    sku: _nameController.text,
+                    price: double.parse(_priceController.text),
+                    description: _descriptionController.text,
+                    stock: int.parse(_stockController.text),
+                    discountPercentage: double.parse(_discountController.text),
+                  );
+                  _storeProduct(newData);
+                }
               }
             },
             label: 'Save',

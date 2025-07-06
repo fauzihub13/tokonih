@@ -26,48 +26,18 @@ class ProductViewmodel extends _$ProductViewmodel {
     );
   }
 
-  Future<bool> storeProduct() async {
-    state = const AsyncLoading();
-    final result = await _datasource.storeProduct();
-    return result.fold(
-      (failure) {
-        state = AsyncError(failure, StackTrace.current);
-        return false;
-      },
-      (msg) async {
-        await getAllProduct();
-        return true;
-      },
-    );
-  }
-
-  Future<bool> updateProduct(int id) async {
-    state = const AsyncLoading();
-    final result = await _datasource.updateProduct(id);
-    return result.fold(
-      (failure) {
-        state = AsyncError(failure, StackTrace.current);
-        return false;
-      },
-      (msg) async {
-        await getAllProduct();
-        return true;
-      },
-    );
-  }
-
-  Future<bool> deleteProduct(int id) async {
-    state = const AsyncLoading();
-    final result = await _datasource.deleteProduct(id);
-    return result.fold(
-      (failure) {
-        state = AsyncError(failure, StackTrace.current);
-        return false;
-      },
-      (msg) async {
-        await getAllProduct();
-        return true;
-      },
-    );
-  }
+  // Future<bool> deleteProduct(int id) async {
+  //   state = const AsyncLoading();
+  //   final result = await _datasource.deleteProduct(id);
+  //   return result.fold(
+  //     (failure) {
+  //       state = AsyncError(failure, StackTrace.current);
+  //       return false;
+  //     },
+  //     (msg) async {
+  //       await getAllProduct();
+  //       return true;
+  //     },
+  //   );
+  // }
 }

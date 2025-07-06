@@ -13,10 +13,8 @@ class ProductDatasource {
       method: DioMethod.get,
     );
     if (response.statusCode == 200) {
-      // print('dari source berhasil-----------------------------------------');
       return Right(AllProductResponseModel.fromMap(response.data));
     } else {
-      // print('dari source gagal');
       return Left(Failure(message: 'Failed to get products, please try again'));
     }
   }
@@ -37,23 +35,26 @@ class ProductDatasource {
     }
   }
 
-  Future<Either<Failure, String>> storeProduct() async {
+  Future<Either<Failure, String>> storeProduct(Product product) async {
     final response = await _apiService.request(
       endpoint: '/products/add',
       method: DioMethod.post,
     );
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       return Right('Success add new product');
     } else {
       return Left(
-        Failure(message: 'Failed to get add new product, please try again'),
+        Failure(
+          message:
+              'Failed to get add new product, please try again ${response.data}',
+        ),
       );
     }
   }
 
-  Future<Either<Failure, String>> updateProduct(int productId) async {
+  Future<Either<Failure, String>> updateProduct(Product product) async {
     final response = await _apiService.request(
-      endpoint: '/products/$productId',
+      endpoint: '/products/${product.id!}',
       method: DioMethod.put,
     );
     if (response.statusCode == 200) {
