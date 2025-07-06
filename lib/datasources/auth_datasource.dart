@@ -18,6 +18,9 @@ class AuthDatasource {
     );
     if (response.statusCode == 200) {
       await AuthLocalHelper().saveAuthToken(response.data['accessToken']);
+      await AuthLocalHelper().saveAuthData(
+        LoginResponseModel.fromMap(response.data),
+      );
       return Right(LoginResponseModel.fromMap(response.data));
     } else {
       return Left(Failure(message: 'Failed to login, invalid credentials'));

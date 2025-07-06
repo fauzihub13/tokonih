@@ -1,11 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_tokonih/core/constant/theme.dart';
+import 'package:flutter_tokonih/core/helper/auth_local_helper.dart';
 import 'package:flutter_tokonih/features/home/views/notification_page.dart';
+import 'package:flutter_tokonih/models/response/login_response_model.dart';
 
-class MainAppbar extends StatelessWidget {
-  final String name;
-  const MainAppbar({super.key, required this.name});
+class MainAppbar extends StatefulWidget {
+  const MainAppbar({super.key});
+
+  @override
+  State<MainAppbar> createState() => _MainAppbarState();
+}
+
+class _MainAppbarState extends State<MainAppbar> {
+  LoginResponseModel? authData;
+  Future<void> _loadAuthData() async {
+    final response = await AuthLocalHelper().getAuthData();
+    setState(() {
+      authData = response;
+    });
+  }
+
+  @override
+  void initState() {
+    _loadAuthData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +49,7 @@ class MainAppbar extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    name,
+                    authData == null ? '-' : authData!.firstName ?? '-',
                     maxLines: 1,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w500,

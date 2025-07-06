@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
-        child: MainAppbar(name: 'Wiliam Anderson'),
+        child: MainAppbar(),
       ),
       body: Padding(
         padding: const EdgeInsets.all(PaddingSize.horizontal),

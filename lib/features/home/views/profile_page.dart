@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tokonih/core/constant/theme.dart';
+import 'package:flutter_tokonih/core/helper/auth_local_helper.dart';
+import 'package:flutter_tokonih/features/auth/views/login_page.dart';
 import 'package:flutter_tokonih/features/home/widgets/row_profile_card.dart';
 import 'package:flutter_tokonih/features/product/views/manage_product_page.dart';
 import 'package:flutter_tokonih/features/shared/widgets/common_appbar.dart';
@@ -13,40 +15,31 @@ class ProfilePage extends StatelessWidget {
       {
         'iconPath': 'assets/icons/navbar/profile.svg',
         'title': 'Edit Profile',
-        'onTap': () {
-          print('edit profile');
-        },
+        'onTap': () {},
         'color': null,
       },
       {
         'iconPath': 'assets/icons/my_order.svg',
         'title': 'My Order',
-        'onTap': () {
-          print('my order');
-        },
+        'onTap': () {},
         'color': null,
       },
       {
         'iconPath': 'assets/icons/payment_method.svg',
         'title': 'Payment Methods',
-        'onTap': () {
-          print('payment method');
-        },
+        'onTap': () {},
         'color': null,
       },
       {
         'iconPath': 'assets/icons/notification.svg',
         'title': 'Notifications',
-        'onTap': () {
-          print('Notifications');
-        },
+        'onTap': () {},
         'color': null,
       },
       {
         'iconPath': 'assets/icons/product.svg',
         'title': 'Manage Product',
         'onTap': () {
-          print('Manage Product');
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -61,17 +54,13 @@ class ProfilePage extends StatelessWidget {
       {
         'iconPath': 'assets/icons/privacy.svg',
         'title': 'Privacy and Policy',
-        'onTap': () {
-          print('Privacy and Policy');
-        },
+        'onTap': () {},
         'color': null,
       },
       {
         'iconPath': 'assets/icons/help.svg',
         'title': 'Help Center',
-        'onTap': () {
-          print('Help Center');
-        },
+        'onTap': () {},
         'color': null,
       },
 
@@ -79,7 +68,12 @@ class ProfilePage extends StatelessWidget {
         'iconPath': 'assets/icons/logout.svg',
         'title': 'Logout',
         'onTap': () {
-          print('Logout');
+          AuthLocalHelper().removeAuthData();
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const LoginPage()),
+            (route) => false,
+          );
         },
         'color': DefaultColors.red600,
       },

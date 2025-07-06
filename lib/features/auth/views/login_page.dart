@@ -1,25 +1,73 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_tokonih/core/constant/theme.dart';
+import 'package:flutter_tokonih/core/utils/err_ext.dart';
+import 'package:flutter_tokonih/features/auth/viewmodels/auth_viewmodel.dart';
 import 'package:flutter_tokonih/features/home/views/landing_page.dart';
 import 'package:flutter_tokonih/features/shared/widgets/form_input.dart';
 import 'package:flutter_tokonih/features/shared/widgets/form_label.dart';
 import 'package:flutter_tokonih/features/shared/widgets/main_button.dart';
+import 'package:flutter_tokonih/models/response/login_response_model.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  ConsumerState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends ConsumerState<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   bool _obscurePassword = true;
-  final _emailController = TextEditingController();
+  final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+
+  void _handleLogin() async {
+    if (_formKey.currentState!.validate()) {
+      await ref
+          .read(authViewmodelProvider.notifier)
+          .login(
+            username: _usernameController.text,
+            password: _passwordController.text,
+          );
+    }
+  }
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final authState = ref.watch(authViewmodelProvider);
+    ref.listen<AsyncValue<LoginResponseModel?>>(authViewmodelProvider, (
+      previous,
+      next,
+    ) {
+      next.when(
+        data: (loginResponse) {
+          if (loginResponse != null) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => LandingPage()),
+            );
+          }
+        },
+        loading: () {},
+        error: (failure, stack) {
+          final message = next.failureMessage ?? 'Terjadi kesalahan';
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(message),
+              backgroundColor: DefaultColors.red600,
+            ),
+          );
+        },
+      );
+    });
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -46,16 +94,13 @@ class _LoginPageState extends State<LoginPage> {
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   const SizedBox(height: 20),
-                  FormLabel(label: 'Email'),
+                  FormLabel(label: 'Username'),
                   FormInput(
-                    controller: _emailController,
-                    hintText: 'Enter your email',
+                    controller: _usernameController,
+                    hintText: 'Enter your username',
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'This email field is required.';
-                      }
-                      if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                        return 'Please enter a valid email address.';
+                        return 'This username field is required.';
                       }
                       return null;
                     },
@@ -86,20 +131,12 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   const SizedBox(height: 30),
                   MainButton.filled(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        // print('data validated');
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return LandingPage();
-                            },
-                          ),
-                        );
-                      }
-                    },
-                    label: 'Login',
+                    onPressed: authState.isLoading ? () {} : _handleLogin,
+                    label: authState.when(
+                      data: (_) => 'Login',
+                      error: (_, __) => 'Login',
+                      loading: () => 'Logging in...',
+                    ),
                   ),
                 ],
               ),

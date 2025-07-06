@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_tokonih/core/constant/theme.dart';
 import 'package:flutter_tokonih/core/constant/variables.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-part 'main.g.dart';
+import 'package:flutter_tokonih/features/auth/views/app_entry_page.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -19,13 +17,7 @@ class MyApp extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       title: Variables.appName,
       theme: AppTheme.light,
-      home: Scaffold(body: Center(child: Text(ref.read(exampleProvider)))),
-      // home: LoginPage(),
+      home: const AppEntryPage(),
     );
   }
-}
-
-@riverpod
-String example(Ref ref) {
-  return 'hello worldasd';
 }
