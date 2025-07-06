@@ -13,8 +13,10 @@ class ProductDatasource {
       method: DioMethod.get,
     );
     if (response.statusCode == 200) {
-      return Right(AllProductResponseModel.fromJson(response.data));
+      // print('dari source berhasil-----------------------------------------');
+      return Right(AllProductResponseModel.fromMap(response.data));
     } else {
+      // print('dari source gagal');
       return Left(Failure(message: 'Failed to get products, please try again'));
     }
   }
@@ -27,7 +29,7 @@ class ProductDatasource {
       method: DioMethod.get,
     );
     if (response.statusCode == 200) {
-      return Right(DetailProductResponseModel.fromJson(response.data));
+      return Right(DetailProductResponseModel.fromMap(response.data));
     } else {
       return Left(
         Failure(message: 'Failed to get detail product, please try again'),

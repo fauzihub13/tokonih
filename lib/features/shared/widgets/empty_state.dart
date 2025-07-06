@@ -6,7 +6,8 @@ class EmptyState extends StatelessWidget {
   final String iconPath;
   final String title;
   final String subTitle;
-  const EmptyState({super.key, required this.iconPath, required this.title, required this.subTitle});
+  final double size;
+  const EmptyState({super.key, required this.iconPath, required this.title, required this.subTitle, this.size = 56});
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +19,8 @@ class EmptyState extends StatelessWidget {
         children: [
           SvgPicture.asset(
             'assets/icons/state/$iconPath',
-            width: 56,
-            height: 56,
+            width: size,
+            height: size,
           ),
           Text(
             title,

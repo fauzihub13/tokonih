@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tokonih/core/constant/theme.dart';
 import 'package:flutter_tokonih/features/product/widgets/product_review_card.dart';
 import 'package:flutter_tokonih/features/shared/widgets/common_appbar.dart';
+import 'package:flutter_tokonih/models/response/detail_product_response_model.dart';
 
-class ProductReviewPage extends StatefulWidget {
-  const ProductReviewPage({super.key});
+class ProductReviewPage extends StatelessWidget {
+  final List<Review> reviews;
+  const ProductReviewPage({super.key, required this.reviews});
 
-  @override
-  State<ProductReviewPage> createState() => _ProductReviewPageState();
-}
-
-class _ProductReviewPageState extends State<ProductReviewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,18 +23,19 @@ class _ProductReviewPageState extends State<ProductReviewPage> {
             bottom: PaddingSize.vertical,
           ),
           child: ListView.separated(
+            itemCount: reviews.length,
             itemBuilder: (BuildContext widgetContext, index) {
+              final review = reviews[index];
               return ProductReviewCard(
-                rating: index + 1,
-                comment: 'hahaha',
-                reviewerName: 'John Dae',
-                date: DateTime.now(),
+                rating: review.rating!,
+                comment: review.comment!,
+                reviewerName: review.reviewerName!,
+                date: review.date!,
               );
             },
             separatorBuilder: (BuildContext separatorContext, index) {
               return SizedBox(height: 0);
             },
-            itemCount: 5,
           ),
         ),
       ),
