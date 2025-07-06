@@ -1,23 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_tokonih/core/constant/theme.dart';
 import 'package:flutter_tokonih/core/constant/variables.dart';
-import 'package:flutter_tokonih/features/auth/views/login_page.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'main.g.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: Variables.appName,
       theme: AppTheme.light,
-      home: LoginPage(),
+      home: Scaffold(body: Center(child: Text(ref.read(exampleProvider)))),
+      // home: LoginPage(),
     );
   }
+}
+
+@riverpod
+String example(Ref ref) {
+  return 'hello worldasd';
 }
