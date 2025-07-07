@@ -13,6 +13,7 @@ import 'package:flutter_tokonih/features/shared/widgets/empty_state.dart';
 import 'package:flutter_tokonih/features/shared/widgets/main_button.dart';
 import 'package:flutter_tokonih/features/shared/widgets/search_bar_input.dart';
 import 'package:flutter_tokonih/models/response/all_product_response_model.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class ManageProductPage extends ConsumerStatefulWidget {
   const ManageProductPage({super.key});
@@ -248,14 +249,14 @@ class _ManageProductPageState extends ConsumerState<ManageProductPage> {
                             },
                           );
                     } else {
-                      return Center(child: CircularProgressIndicator());
+                      return _loadingProduct();
                     }
                   },
                   error: (err, stack) {
                     return Center(child: Text((err as Failure).message!));
                   },
                   loading: () {
-                    return Center(child: CircularProgressIndicator());
+                    return _loadingProduct();
                   },
                 ),
               ),
@@ -264,6 +265,33 @@ class _ManageProductPageState extends ConsumerState<ManageProductPage> {
         ),
       ),
       floatingActionButton: AddNewProductButton(),
+    );
+  }
+
+  Widget _loadingProduct() {
+    return ListView.builder(
+      itemCount: 4,
+      itemBuilder: (context, index) {
+        return Skeletonizer(
+          containersColor: DefaultColors.neutral200.withValues(alpha: 0.2),
+          enabled: true,
+          effect: ShimmerEffect(
+            baseColor: DefaultColors.neutral200,
+            highlightColor: DefaultColors.neutral300,
+          ),
+          child: ManageProductListCard(
+            product: Product(
+              images: [
+                'https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTExL3BmLXMxMDgtcG0tNDExMy1tb2NrdXAuanBn.jpg',
+              ],
+              title: 'Produk Produk',
+              price: 1,
+              rating: 2,
+              reviews: [Review()],
+            ),
+          ),
+        );
+      },
     );
   }
 }

@@ -257,7 +257,9 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
               ),
             );
           } else {
-            return Center(child: CircularProgressIndicator());
+            return Center(
+              child: CircularProgressIndicator(color: DefaultColors.blue600),
+            );
           }
         },
         error: (err, stack) {

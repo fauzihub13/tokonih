@@ -1,36 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_tokonih/core/constant/theme.dart';
-import 'package:flutter_tokonih/core/utils/err_ext.dart';
-import 'package:flutter_tokonih/features/auth/viewmodels/auth_viewmodel.dart';
-import 'package:flutter_tokonih/features/auth/views/register_page.dart';
-import 'package:flutter_tokonih/features/home/views/landing_page.dart';
+import 'package:flutter_tokonih/features/auth/views/login_page.dart';
 import 'package:flutter_tokonih/features/shared/widgets/form_input.dart';
 import 'package:flutter_tokonih/features/shared/widgets/form_label.dart';
 import 'package:flutter_tokonih/features/shared/widgets/main_button.dart';
-import 'package:flutter_tokonih/models/response/login_response_model.dart';
 
-class LoginPage extends ConsumerStatefulWidget {
-  const LoginPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  ConsumerState createState() => _LoginPageState();
+  State createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends ConsumerState<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
   bool _obscurePassword = true;
+  bool _obscurePasswordConfirmation = true;
+  final _fullnameController = TextEditingController();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _passwordConfirmationController = TextEditingController();
 
   void _handleLogin() async {
     if (_formKey.currentState!.validate()) {
-      await ref
-          .read(authViewmodelProvider.notifier)
-          .login(
-            username: _usernameController.text,
-            password: _passwordController.text,
-          );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return LoginPage();
+          },
+        ),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Succes register account"),
+          backgroundColor: DefaultColors.green600,
+        ),
+      );
     }
   }
 
@@ -43,32 +49,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final authState = ref.watch(authViewmodelProvider);
-    ref.listen<AsyncValue<LoginResponseModel?>>(authViewmodelProvider, (
-      previous,
-      next,
-    ) {
-      next.when(
-        data: (loginResponse) {
-          if (loginResponse != null) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => LandingPage()),
-            );
-          }
-        },
-        loading: () {},
-        error: (failure, stack) {
-          final message = next.failureMessage ?? 'Terjadi kesalahan';
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(message),
-              backgroundColor: DefaultColors.red600,
-            ),
-          );
-        },
-      );
-    });
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -84,7 +64,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   children: [
                     const SizedBox(height: 30),
                     Text(
-                      'Login',
+                      'Register',
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.w600,
@@ -92,11 +72,23 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       ),
                     ),
                     Text(
-                      'Please login with your registered account',
+                      'Create your new account',
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     const SizedBox(height: 20),
+                    FormLabel(label: 'Full Name'),
+                    FormInput(
+                      controller: _fullnameController,
+                      hintText: 'Enter your full name',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'This full name field is required.';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 10),
                     FormLabel(label: 'Username'),
                     FormInput(
                       controller: _usernameController,
@@ -132,14 +124,37 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         return null;
                       },
                     ),
+                    const SizedBox(height: 10),
+                    FormLabel(label: 'Password Confirmation'),
+                    FormInput(
+                      controller: _passwordConfirmationController,
+                      hintText: 'Enter your password confirmation',
+                      obscureText: _obscurePasswordConfirmation,
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            _obscurePasswordConfirmation =
+                                !_obscurePasswordConfirmation;
+                          });
+                        },
+                        icon:
+                            _obscurePasswordConfirmation
+                                ? Icon(Icons.visibility)
+                                : Icon(Icons.visibility_off),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'This password confirmation field is required.';
+                        } else if (value != _passwordController.text) {
+                          return 'This password confirmation doesn\'t match';
+                        }
+                        return null;
+                      },
+                    ),
                     const SizedBox(height: 30),
                     MainButton.filled(
-                      onPressed: authState.isLoading ? () {} : _handleLogin,
-                      label: authState.when(
-                        data: (_) => 'Login',
-                        error: (_, __) => 'Login',
-                        loading: () => 'Logging in...',
-                      ),
+                      onPressed: _handleLogin,
+                      label: 'Register',
                     ),
                     const SizedBox(height: 10),
                     Row(
@@ -166,13 +181,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) {
-                                  return RegisterPage();
+                                  return LoginPage();
                                 },
                               ),
                             );
                           },
                           child: Text(
-                            'Register',
+                            'Login',
                             style: Theme.of(context).textTheme.bodyMedium
                                 ?.copyWith(color: DefaultColors.blue600),
                           ),

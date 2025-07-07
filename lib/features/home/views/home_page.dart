@@ -10,6 +10,8 @@ import 'package:flutter_tokonih/features/product/viewmodels/product_viewmodel.da
 import 'package:flutter_tokonih/features/product/views/product_list_page.dart';
 import 'package:flutter_tokonih/features/shared/widgets/search_bar_input.dart';
 import 'package:flutter_tokonih/features/shared/widgets/title_section.dart';
+import 'package:flutter_tokonih/models/response/all_product_response_model.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -127,9 +129,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                               physics: const NeverScrollableScrollPhysics(),
                               itemCount: 8,
                               itemBuilder: (context, index) {
-                                return CategoryCard(
-                                  categoryName: '$index category',
-                                );
+                                return CategoryCard(categoryName: 'Category ');
                               },
                             ),
                           ],
@@ -148,7 +148,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                   scrollDirection: Axis.horizontal,
                   itemCount: 10,
                   itemBuilder: (context, index) {
-                    return CategoryCard(categoryName: '$index category');
+                    return CategoryCard(categoryName: 'Category');
                   },
                 ),
               ),
@@ -172,7 +172,7 @@ class _HomePageState extends ConsumerState<HomePage> {
               productState.when(
                 data: (data) {
                   if (data == null) {
-                    return Center(child: CircularProgressIndicator());
+                    return _loadingCatalog();
                   } else {
                     return GridView.builder(
                       gridDelegate:
@@ -193,33 +193,51 @@ class _HomePageState extends ConsumerState<HomePage> {
                   }
                 },
                 error: (err, stack) {
-                  // print('ERR TYPE: ${err.runtimeType}');
                   return Center(child: Text((err as Failure).message!));
                 },
                 loading: () {
-                  // print('loading ui');
-                  return Center(child: CircularProgressIndicator());
+                  return _loadingCatalog();
                 },
               ),
-              // Product List
-              // GridView.builder(
-              //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              //     crossAxisCount: 2,
-              //     mainAxisSpacing: 18,
-              //     crossAxisSpacing: 18,
-              //     mainAxisExtent: 300,
-              //   ),
-              //   shrinkWrap: true,
-              //   physics: const NeverScrollableScrollPhysics(),
-              //   itemCount: 8,
-              //   itemBuilder: (context, index) {
-              //     return ProductCatalogCard();
-              //   },
-              // ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _loadingCatalog() {
+    return GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        mainAxisSpacing: 18,
+        crossAxisSpacing: 18,
+        mainAxisExtent: 300,
+      ),
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: 8,
+      itemBuilder: (context, index) {
+        return Skeletonizer(
+          containersColor: DefaultColors.neutral100.withValues(alpha: 0.2),
+          enabled: true,
+          effect: ShimmerEffect(
+            baseColor: DefaultColors.neutral200,
+            highlightColor: DefaultColors.neutral300,
+          ),
+          child: ProductCatalogCard(
+            product: Product(
+              images: [
+                'https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTExL3BmLXMxMDgtcG0tNDExMy1tb2NrdXAuanBn.jpg',
+              ],
+              title: '',
+              price: 1,
+              rating: 2,
+              reviews: [Review()],
+            ),
+          ),
+        );
+      },
     );
   }
 }
