@@ -72,73 +72,76 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(PaddingSize.horizontal),
-          child: Form(
-            key: _formKey,
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                spacing: 6,
-                children: [
-                  const SizedBox(height: 30),
-                  Text(
-                    'Login',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.w600,
+          child: Center(
+            child: Form(
+              key: _formKey,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  spacing: 6,
+                  children: [
+                    const SizedBox(height: 30),
+                    Text(
+                      'Login',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: DefaultColors.blue600,
+                      ),
                     ),
-                  ),
-                  Text(
-                    'Please login with your registered account',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                  const SizedBox(height: 20),
-                  FormLabel(label: 'Username'),
-                  FormInput(
-                    controller: _usernameController,
-                    hintText: 'Enter your username',
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'This username field is required.';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 10),
-                  FormLabel(label: 'Password'),
-                  FormInput(
-                    controller: _passwordController,
-                    hintText: 'Enter your password',
-                    obscureText: _obscurePassword,
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          _obscurePassword = !_obscurePassword;
-                        });
+                    Text(
+                      'Please login with your registered account',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    const SizedBox(height: 20),
+                    FormLabel(label: 'Username'),
+                    FormInput(
+                      controller: _usernameController,
+                      hintText: 'Enter your username',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'This username field is required.';
+                        }
+                        return null;
                       },
-                      icon:
-                          _obscurePassword
-                              ? Icon(Icons.visibility)
-                              : Icon(Icons.visibility_off),
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'This password field is required.';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 30),
-                  MainButton.filled(
-                    onPressed: authState.isLoading ? () {} : _handleLogin,
-                    label: authState.when(
-                      data: (_) => 'Login',
-                      error: (_, __) => 'Login',
-                      loading: () => 'Logging in...',
+                    const SizedBox(height: 10),
+                    FormLabel(label: 'Password'),
+                    FormInput(
+                      controller: _passwordController,
+                      hintText: 'Enter your password',
+                      obscureText: _obscurePassword,
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            _obscurePassword = !_obscurePassword;
+                          });
+                        },
+                        icon:
+                            _obscurePassword
+                                ? Icon(Icons.visibility)
+                                : Icon(Icons.visibility_off),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'This password field is required.';
+                        }
+                        return null;
+                      },
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 30),
+                    MainButton.filled(
+                      onPressed: authState.isLoading ? () {} : _handleLogin,
+                      label: authState.when(
+                        data: (_) => 'Login',
+                        error: (_, __) => 'Login',
+                        loading: () => 'Logging in...',
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

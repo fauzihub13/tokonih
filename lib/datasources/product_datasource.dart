@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_tokonih/core/error/failure.dart';
 import 'package:flutter_tokonih/core/network/api_service.dart';
 import 'package:flutter_tokonih/models/response/all_product_response_model.dart';
@@ -36,9 +37,19 @@ class ProductDatasource {
   }
 
   Future<Either<Failure, String>> storeProduct(Product product) async {
+    FormData formData = FormData.fromMap({
+      'title': product.title,
+      'brand': product.brand,
+      'sku': product.sku,
+      'price': product.price,
+      'description': product.description,
+      'stock': product.stock,
+      'discountPercentage': product.discountPercentage,
+    });
     final response = await _apiService.request(
       endpoint: '/products/add',
       method: DioMethod.post,
+      formData: formData,
     );
     if (response.statusCode == 201) {
       return Right('Success add new product');
@@ -53,9 +64,19 @@ class ProductDatasource {
   }
 
   Future<Either<Failure, String>> updateProduct(Product product) async {
+    FormData formData = FormData.fromMap({
+      'title': product.title,
+      'brand': product.brand,
+      'sku': product.sku,
+      'price': product.price,
+      'description': product.description,
+      'stock': product.stock,
+      'discountPercentage': product.discountPercentage,
+    });
     final response = await _apiService.request(
       endpoint: '/products/${product.id!}',
       method: DioMethod.put,
+      formData: formData,
     );
     if (response.statusCode == 200) {
       return Right('Success edit product');

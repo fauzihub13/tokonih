@@ -122,11 +122,16 @@ class AppTheme {
         iconColor: DefaultColors.neutral400,
         suffixIconColor: DefaultColors.neutral400,
         prefixIconColor: DefaultColors.neutral400,
+  
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),
           borderSide: BorderSide(color: DefaultColors.neutral400, width: 1.5),
         ),
         enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.0),
+          borderSide: BorderSide(color: DefaultColors.neutral400, width: 1.5),
+        ),
+        disabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),
           borderSide: BorderSide(color: DefaultColors.neutral400, width: 1.5),
         ),
