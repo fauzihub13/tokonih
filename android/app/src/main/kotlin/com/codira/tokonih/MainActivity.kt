@@ -1,4 +1,4 @@
-package com.example.flutter_tokonih
+package com.codira.tokonih
 
 import io.flutter.embedding.android.FlutterActivity
 

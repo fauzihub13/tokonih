@@ -16,9 +16,7 @@ class AppEntryPage extends StatelessWidget {
       future: checkLoginStatus(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
-          );
+          return const Scaffold(backgroundColor: Colors.white, body: Center());
         }
 
         if (snapshot.hasData && snapshot.data == true) {
