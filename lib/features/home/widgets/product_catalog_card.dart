@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tokonih/core/constant/theme.dart';
+import 'package:flutter_tokonih/core/router/route_name.dart';
 import 'package:flutter_tokonih/features/home/widgets/product_favourite_button.dart';
-import 'package:flutter_tokonih/features/product/views/product_detail_page.dart';
 import 'package:flutter_tokonih/models/response/all_product_response_model.dart';
+import 'package:go_router/go_router.dart';
 
 class ProductCatalogCard extends StatefulWidget {
   final Product product;
@@ -19,15 +20,9 @@ class _ProductCatalogCardState extends State<ProductCatalogCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // print('detail');
-        
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) {
-              return ProductDetailPage(productId: widget.product.id!);
-            },
-          ),
+        context.pushNamed(
+          RouteName.productDetailPage,
+          extra: widget.product.id!,
         );
       },
       child: Container(
@@ -57,6 +52,14 @@ class _ProductCatalogCardState extends State<ProductCatalogCard> {
                     width: (MediaQuery.of(context).size.width * 0.5),
                     height: (MediaQuery.of(context).size.width * 0.5) - 48,
                     fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        width: (MediaQuery.of(context).size.width * 0.5),
+                        height: (MediaQuery.of(context).size.width * 0.5) - 48,
+                        color: Colors.red,
+                        alignment: Alignment.center,
+                      );
+                    },
                   ),
                 ),
                 Positioned(

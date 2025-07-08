@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_tokonih/core/constant/theme.dart';
 import 'package:flutter_tokonih/core/error/failure.dart';
-import 'package:flutter_tokonih/features/home/views/landing_page.dart';
+import 'package:flutter_tokonih/core/router/route_name.dart';
 import 'package:flutter_tokonih/features/home/widgets/product_favourite_button.dart';
 import 'package:flutter_tokonih/features/product/viewmodels/detail_product_viewmodel.dart';
-import 'package:flutter_tokonih/features/product/views/product_review_page.dart';
 import 'package:flutter_tokonih/features/product/widgets/row_product_detail.dart';
 import 'package:flutter_tokonih/features/shared/widgets/common_appbar.dart';
 import 'package:flutter_tokonih/features/shared/widgets/main_button.dart';
+import 'package:go_router/go_router.dart';
 
 class ProductDetailPage extends ConsumerStatefulWidget {
   final int productId;
@@ -45,14 +45,7 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
             color: DefaultColors.neutral950,
           ),
           suffixIconOnTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return LandingPage(index: 2);
-                },
-              ),
-            );
+            context.pushNamed(RouteName.landingPage, extra: 2);
           },
         ),
       ),
@@ -187,15 +180,9 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
                       child: InkWell(
                         splashColor: DefaultColors.neutral50,
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return ProductReviewPage(
-                                  reviews: data.reviews!,
-                                );
-                              },
-                            ),
+                          context.pushNamed(
+                            RouteName.productReviewPage,
+                            extra: data.reviews!,
                           );
                         },
                         child: Padding(

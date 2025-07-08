@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_tokonih/core/constant/theme.dart';
+import 'package:flutter_tokonih/core/router/route_name.dart';
+import 'package:flutter_tokonih/core/router/route_page.dart';
 import 'package:flutter_tokonih/core/utils/err_ext.dart';
 import 'package:flutter_tokonih/features/auth/viewmodels/auth_viewmodel.dart';
-import 'package:flutter_tokonih/features/auth/views/register_page.dart';
-import 'package:flutter_tokonih/features/home/views/landing_page.dart';
 import 'package:flutter_tokonih/features/shared/widgets/form_input.dart';
 import 'package:flutter_tokonih/features/shared/widgets/form_label.dart';
 import 'package:flutter_tokonih/features/shared/widgets/main_button.dart';
 import 'package:flutter_tokonih/models/response/login_response_model.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -51,15 +52,20 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       next.when(
         data: (loginResponse) {
           if (loginResponse != null) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => LandingPage()),
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("Succes login into your account"),
+                backgroundColor: DefaultColors.green600,
+              ),
             );
+            RoutePage.isLoggedIn = true;
+            context.goNamed(RouteName.landingPage);
           }
         },
         loading: () {},
         error: (failure, stack) {
-          final message = next.failureMessage ?? 'Terjadi kesalahan';
+          final message =
+              next.failureMessage ?? 'Failed to login, please try again';
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(message),
@@ -161,15 +167,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             minimumSize: Size(0, 0),
                           ),
                           onPressed: () {
-                            // context.pushNamed(RouteName.registerPage);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return RegisterPage();
-                                },
-                              ),
-                            );
+                            context.pushNamed(RouteName.registerPage);
                           },
                           child: Text(
                             'Register',

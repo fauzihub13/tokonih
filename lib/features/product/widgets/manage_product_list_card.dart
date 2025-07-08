@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tokonih/core/constant/theme.dart';
-import 'package:flutter_tokonih/features/product/views/add_new_product_page.dart';
+import 'package:flutter_tokonih/core/router/route_name.dart';
 import 'package:flutter_tokonih/models/response/all_product_response_model.dart';
+import 'package:go_router/go_router.dart';
 
 class ManageProductListCard extends StatelessWidget {
   final Product product;
@@ -14,14 +15,7 @@ class ManageProductListCard extends StatelessWidget {
       color: Colors.white,
       child: InkWell(
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) {
-                return AddNewProductPage(product: product);
-              },
-            ),
-          );
+          context.pushNamed(RouteName.addNewProductPage, extra: product);
         },
         splashColor: DefaultColors.neutral100,
         child: Container(

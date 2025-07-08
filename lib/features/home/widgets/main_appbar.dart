@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_tokonih/core/constant/theme.dart';
 import 'package:flutter_tokonih/core/helper/auth_local_helper.dart';
-import 'package:flutter_tokonih/features/home/views/notification_page.dart';
+import 'package:flutter_tokonih/core/router/route_name.dart';
 import 'package:flutter_tokonih/models/response/login_response_model.dart';
+import 'package:go_router/go_router.dart';
 
 class MainAppbar extends StatefulWidget {
   const MainAppbar({super.key});
@@ -69,14 +70,15 @@ class _MainAppbarState extends State<MainAppbar> {
                     width: 28,
                   ),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return NotificationPage();
-                        },
-                      ),
-                    );
+                    context.pushNamed(RouteName.notificationPage);
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) {
+                    //       return NotificationPage();
+                    //     },
+                    //   ),
+                    // );
                   },
                 ),
               ),

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tokonih/core/constant/theme.dart';
+import 'package:flutter_tokonih/core/router/route_name.dart';
 import 'package:flutter_tokonih/features/auth/views/login_page.dart';
 import 'package:flutter_tokonih/features/shared/widgets/form_input.dart';
 import 'package:flutter_tokonih/features/shared/widgets/form_label.dart';
 import 'package:flutter_tokonih/features/shared/widgets/main_button.dart';
+import 'package:go_router/go_router.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -21,16 +23,10 @@ class _RegisterPageState extends State<RegisterPage> {
   final _passwordController = TextEditingController();
   final _passwordConfirmationController = TextEditingController();
 
-  void _handleLogin() async {
+  void _handleRegister() async {
     if (_formKey.currentState!.validate()) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) {
-            return LoginPage();
-          },
-        ),
-      );
+      context.pushNamed(RouteName.loginPage);
+
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Succes register account"),
@@ -153,7 +149,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     const SizedBox(height: 30),
                     MainButton.filled(
-                      onPressed: _handleLogin,
+                      onPressed: _handleRegister,
                       label: 'Register',
                     ),
                     const SizedBox(height: 10),

@@ -14,6 +14,7 @@ class AuthLocalHelper {
 
   Future<void> removeAuthData() async {
     await storage.delete(key: 'auth_data');
+    await storage.delete(key: 'auth_token');
   }
 
   Future<bool> isAuthDataExist() async {

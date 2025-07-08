@@ -3,13 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_tokonih/core/constant/theme.dart';
 import 'package:flutter_tokonih/core/error/failure.dart';
-import 'package:flutter_tokonih/features/home/views/landing_page.dart';
+import 'package:flutter_tokonih/core/router/route_name.dart';
 import 'package:flutter_tokonih/features/home/widgets/product_catalog_card.dart';
 import 'package:flutter_tokonih/features/product/viewmodels/product_viewmodel.dart';
 import 'package:flutter_tokonih/features/shared/widgets/common_appbar.dart';
 import 'package:flutter_tokonih/features/shared/widgets/empty_state.dart';
 import 'package:flutter_tokonih/features/shared/widgets/search_bar_input.dart';
 import 'package:flutter_tokonih/models/response/all_product_response_model.dart';
+import 'package:go_router/go_router.dart';
 
 class ProductListPage extends ConsumerStatefulWidget {
   const ProductListPage({super.key});
@@ -54,14 +55,7 @@ class _ProductListPageState extends ConsumerState<ProductListPage> {
             color: DefaultColors.neutral950,
           ),
           suffixIconOnTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return LandingPage(index: 2);
-                },
-              ),
-            );
+            context.pushNamed(RouteName.landingPage, extra: 2);
           },
         ),
       ),

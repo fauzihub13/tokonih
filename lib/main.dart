@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_tokonih/core/constant/theme.dart';
 import 'package:flutter_tokonih/core/constant/variables.dart';
-import 'package:flutter_tokonih/features/auth/views/app_entry_page.dart';
+import 'package:flutter_tokonih/core/helper/auth_local_helper.dart';
+import 'package:flutter_tokonih/core/router/route_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  RoutePage.isLoggedIn = await AuthLocalHelper().isAuthDataExist();
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -13,11 +16,11 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: Variables.appName,
       theme: AppTheme.light,
-      home: const AppEntryPage(),
+      routerConfig: RoutePage.goRouter,
     );
   }
 }

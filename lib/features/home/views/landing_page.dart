@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_tokonih/core/constant/theme.dart';
 import 'package:flutter_tokonih/features/home/views/cart_page.dart';
 import 'package:flutter_tokonih/features/home/views/home_page.dart';
 import 'package:flutter_tokonih/features/home/views/profile_page.dart';
 import 'package:flutter_tokonih/features/home/views/saved_page.dart';
+import 'package:flutter_tokonih/features/product/viewmodels/product_viewmodel.dart';
 
-class LandingPage extends StatefulWidget {
+class LandingPage extends ConsumerStatefulWidget {
   final int index;
   const LandingPage({super.key, this.index = 0});
 
   @override
-  State<LandingPage> createState() => _LandingPageState();
+  ConsumerState createState() => _LandingPageState();
 }
 
-class _LandingPageState extends State<LandingPage> {
+class _LandingPageState extends ConsumerState<LandingPage> {
   int _selectedIndex = 0;
+  bool isOpened = false;
 
   final List<Widget> widgetOptions = const [
     HomePage(),
@@ -28,12 +31,18 @@ class _LandingPageState extends State<LandingPage> {
   void initState() {
     _selectedIndex = widget.index;
     super.initState();
+    if (!isOpened) {
+      _fetchProduct();
+    }
+  }
+
+  void _fetchProduct() {
+    ref.read(productViewmodelProvider.notifier).getAllProduct();
   }
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-      // print(_selectedIndex);
     });
   }
 

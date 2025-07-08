@@ -3,14 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_tokonih/core/constant/theme.dart';
 import 'package:flutter_tokonih/core/error/failure.dart';
+import 'package:flutter_tokonih/core/router/route_name.dart';
 import 'package:flutter_tokonih/features/home/widgets/category_card.dart';
 import 'package:flutter_tokonih/features/home/widgets/main_appbar.dart';
 import 'package:flutter_tokonih/features/home/widgets/product_catalog_card.dart';
 import 'package:flutter_tokonih/features/product/viewmodels/product_viewmodel.dart';
-import 'package:flutter_tokonih/features/product/views/product_list_page.dart';
 import 'package:flutter_tokonih/features/shared/widgets/search_bar_input.dart';
 import 'package:flutter_tokonih/features/shared/widgets/title_section.dart';
 import 'package:flutter_tokonih/models/response/all_product_response_model.dart';
+import 'package:go_router/go_router.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class HomePage extends ConsumerStatefulWidget {
@@ -46,14 +47,7 @@ class _HomePageState extends ConsumerState<HomePage> {
               // Searchbar
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return ProductListPage();
-                      },
-                    ),
-                  );
+                  context.pushNamed(RouteName.productListPage);
                 },
                 child: SearchBarInput(
                   fillColor: DefaultColors.neutral50,
@@ -158,14 +152,7 @@ class _HomePageState extends ConsumerState<HomePage> {
               TitleSection(
                 title: 'Hot Product',
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return ProductListPage();
-                      },
-                    ),
-                  );
+                  context.pushNamed(RouteName.productListPage);
                 },
               ),
 
@@ -228,7 +215,7 @@ class _HomePageState extends ConsumerState<HomePage> {
           child: ProductCatalogCard(
             product: Product(
               images: [
-                'https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTExL3BmLXMxMDgtcG0tNDExMy1tb2NrdXAuanBn.jpg',
+                'https://retailminded.com/wp-content/uploads/2016/03/EN_GreenOlive-1.jpg',
               ],
               title: '',
               price: 1,

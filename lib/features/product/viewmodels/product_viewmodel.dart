@@ -25,19 +25,4 @@ class ProductViewmodel extends _$ProductViewmodel {
       },
     );
   }
-
-  // Future<bool> deleteProduct(int id) async {
-  //   state = const AsyncLoading();
-  //   final result = await _datasource.deleteProduct(id);
-  //   return result.fold(
-  //     (failure) {
-  //       state = AsyncError(failure, StackTrace.current);
-  //       return false;
-  //     },
-  //     (msg) async {
-  //       await getAllProduct();
-  //       return true;
-  //     },
-  //   );
-  // }
 }
