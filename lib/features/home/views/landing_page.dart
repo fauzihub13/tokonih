@@ -18,7 +18,6 @@ class LandingPage extends ConsumerStatefulWidget {
 
 class _LandingPageState extends ConsumerState<LandingPage> {
   int _selectedIndex = 0;
-  bool isOpened = false;
 
   final List<Widget> widgetOptions = const [
     HomePage(),
@@ -31,9 +30,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
   void initState() {
     _selectedIndex = widget.index;
     super.initState();
-    if (!isOpened) {
-      _fetchProduct();
-    }
+    _fetchProduct();
   }
 
   void _fetchProduct() {

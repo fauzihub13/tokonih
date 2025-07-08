@@ -4,7 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'product_viewmodel.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class ProductViewmodel extends _$ProductViewmodel {
   final _datasource = ProductDatasource();
 
