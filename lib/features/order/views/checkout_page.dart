@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tokonih/core/constant/theme.dart';
+import 'package:flutter_tokonih/core/router/route_name.dart';
 import 'package:flutter_tokonih/features/order/widgets/payment_option_card.dart';
 import 'package:flutter_tokonih/features/order/widgets/row_cart_info.dart';
 import 'package:flutter_tokonih/features/shared/widgets/common_appbar.dart';
 import 'package:flutter_tokonih/features/shared/widgets/form_input.dart';
 import 'package:flutter_tokonih/features/shared/widgets/main_button.dart';
+import 'package:go_router/go_router.dart';
 
 class CheckoutPage extends StatefulWidget {
   const CheckoutPage({super.key});
@@ -168,7 +170,21 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 ),
                 const SizedBox(height: 20),
 
-                MainButton.filled(onPressed: () {}, label: 'Place Order'),
+                MainButton.filled(
+                  onPressed: () {
+                    context.pushReplacementNamed(
+                      RouteName.landingPage,
+                      extra: 0,
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Your order has been placed"),
+                        backgroundColor: DefaultColors.green600,
+                      ),
+                    );
+                  },
+                  label: 'Place Order',
+                ),
               ],
             ),
           ),

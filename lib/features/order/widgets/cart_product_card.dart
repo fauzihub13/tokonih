@@ -69,9 +69,7 @@ class CartProductCard extends StatelessWidget {
                             child: IconButton(
                               padding: const EdgeInsets.all(0),
                               color: DefaultColors.blue400,
-                              onPressed: () {
-                                print('klik');
-                              },
+                              onPressed: () {},
                               icon: Icon(
                                 Icons.remove,
                                 size: 20,
@@ -96,9 +94,7 @@ class CartProductCard extends StatelessWidget {
                             child: IconButton(
                               padding: const EdgeInsets.all(0),
                               color: DefaultColors.blue900,
-                              onPressed: () {
-                                print('klik');
-                              },
+                              onPressed: () {},
                               icon: Icon(
                                 Icons.add,
                                 size: 20,
