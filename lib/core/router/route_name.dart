@@ -9,4 +9,5 @@ class RouteName {
   static String productDetailPage = 'product-detail-page';
   static String productListPage = 'product-list-page';
   static String productReviewPage = 'product-review-page';
+  static String checkoutProductPage = 'checkout-product-page';
 }

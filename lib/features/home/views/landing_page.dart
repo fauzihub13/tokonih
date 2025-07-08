@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_tokonih/core/constant/theme.dart';
-import 'package:flutter_tokonih/features/home/views/cart_page.dart';
+import 'package:flutter_tokonih/features/order/views/cart_page.dart';
 import 'package:flutter_tokonih/features/home/views/home_page.dart';
 import 'package:flutter_tokonih/features/home/views/profile_page.dart';
 import 'package:flutter_tokonih/features/home/views/saved_page.dart';

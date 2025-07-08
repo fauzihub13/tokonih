@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_tokonih/core/constant/theme.dart';
-import 'package:flutter_tokonih/features/home/widgets/cart_product_card.dart';
-import 'package:flutter_tokonih/features/home/widgets/row_cart_info.dart';
+import 'package:flutter_tokonih/core/router/route_name.dart';
+import 'package:flutter_tokonih/features/order/widgets/cart_product_card.dart';
+import 'package:flutter_tokonih/features/order/widgets/row_cart_info.dart';
 import 'package:flutter_tokonih/features/shared/widgets/common_appbar.dart';
 import 'package:flutter_tokonih/features/shared/widgets/main_button.dart';
+import 'package:go_router/go_router.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
@@ -14,7 +16,7 @@ class CartPage extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
-        child: CommonAppbar(title: 'Cart', canBack: false),
+        child: CommonAppbar(title: 'My Cart', canBack: false),
       ),
       body: SafeArea(
         child: Column(
@@ -148,7 +150,12 @@ class CartPage extends StatelessWidget {
                   const Divider(color: DefaultColors.neutral100, thickness: 1),
                   RowCartInfo(title: 'Total', price: 180.99),
                   const SizedBox(height: 10),
-                  MainButton.filled(onPressed: () {}, label: 'Go To Checkout'),
+                  MainButton.filled(
+                    onPressed: () {
+                      context.pushNamed(RouteName.checkoutProductPage);
+                    },
+                    label: 'Go To Checkout',
+                  ),
                 ],
               ),
             ),

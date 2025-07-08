@@ -114,30 +114,30 @@ class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: Colors.white,
-        labelStyle: TextStyle(color: DefaultColors.neutral900),
+        labelStyle: TextStyle(color: DefaultColors.neutral500),
         hintStyle: TextStyle(
           fontSize: FontSize.body,
-          color: DefaultColors.neutral900,
+          color: DefaultColors.neutral500,
         ),
         iconColor: DefaultColors.neutral400,
         suffixIconColor: DefaultColors.neutral400,
-        prefixIconColor: DefaultColors.neutral400,
-  
+        prefixIconColor: DefaultColors.neutral600,
+
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),
-          borderSide: BorderSide(color: DefaultColors.neutral400, width: 1.5),
+          borderSide: BorderSide(color: DefaultColors.neutral300, width: 1.5),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),
-          borderSide: BorderSide(color: DefaultColors.neutral400, width: 1.5),
+          borderSide: BorderSide(color: DefaultColors.neutral300, width: 1.5),
         ),
         disabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),
-          borderSide: BorderSide(color: DefaultColors.neutral400, width: 1.5),
+          borderSide: BorderSide(color: DefaultColors.neutral300, width: 1.5),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),
-          borderSide: BorderSide(color: DefaultColors.neutral900, width: 1.5),
+          borderSide: BorderSide(color: DefaultColors.neutral700, width: 1.5),
         ),
       ),
       iconTheme: IconThemeData(color: DefaultColors.neutral100),

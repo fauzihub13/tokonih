@@ -4,6 +4,7 @@ import 'package:flutter_tokonih/features/auth/views/register_page.dart';
 import 'package:flutter_tokonih/features/home/views/landing_page.dart';
 import 'package:flutter_tokonih/features/home/views/notification_page.dart';
 import 'package:flutter_tokonih/features/home/views/profile_page.dart';
+import 'package:flutter_tokonih/features/order/views/checkout_page.dart';
 import 'package:flutter_tokonih/features/product/views/add_new_product_page.dart';
 import 'package:flutter_tokonih/features/product/views/manage_product_page.dart';
 import 'package:flutter_tokonih/features/product/views/product_detail_page.dart';
@@ -98,6 +99,11 @@ class RoutePage {
               state.extra as List<detail_product_model_response.Review>;
           return ProductReviewPage(reviews: reviews);
         },
+      ),
+      GoRoute(
+        name: RouteName.checkoutProductPage,
+        path: '/${RouteName.checkoutProductPage}',
+        builder: (context, state) => CheckoutPage(),
       ),
     ],
   );
